@@ -1,38 +1,32 @@
-def gv
-
 pipeline {
-    agent any
+    agent any    
+    tools   {
+        maven 'Maven'
+    }
     stages {
-        stage("init") {
+        stage('Build jar') {
             steps {
-                script {
-                    gv = load "script.groovy"
+                script  {
+                    echo 'Building the application...'
+                    sh 'mvn package'
                 }
             }
         }
-        stage("build jar") {
+        stage('Build image') {
             steps {
                 script {
-                    echo "building jar"
-                    //gv.buildJar()
+                    echo 'Building the docker image...'
+                    withCredentials([usernamePassword(credentialsId: 'nexus-id', passwordVarriable: 'PASS' , usernameVarriable: 'USER')])
+                    sh 'docker build -t 192.168.15.134:8083/java-maven-app:1.5 .'
+                    sh "echo $PASS | docker login -u $USER --password-stdin 192.168.15.134:8083"
+                    sh 'docker push 192.168.15.134:8083/java-maven-app:1.5'
                 }
             }
         }
-        stage("build image") {
+        stage('Deploy') {
             steps {
-                script {
-                    echo "building image"
-                    //gv.buildImage()
-                }
+                echo 'Deploying....'
             }
         }
-        stage("deploy") {
-            steps {
-                script {
-                    echo "deploying"
-                    //gv.deployApp()
-                }
-            }
-        }
-    }   
+    }
 }
