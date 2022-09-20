@@ -1,5 +1,5 @@
 @Library('jenkins-shared-library')_
-library identifier: 'pipeline-library-example@master', retriever: modernSCM([
+library identifier: 'shared_library@main', retriever: modernSCM([
   $class: 'GitSCMSource',
   remote: 'https://github.com/mojibakara/shared_library.git'
 ])
