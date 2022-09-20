@@ -3,7 +3,7 @@
 library identifier: 'shared-library@main', retriever: modernSCM(
         [$class: 'GitSCMSource',
          remote: 'https://github.com/mojibakara/shared_library.git',
-         credentialsId: 'gitlab-credentials'
+         credentialsId: 'nexus-id'
         ]
 )
 
