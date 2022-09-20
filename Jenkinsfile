@@ -1,8 +1,15 @@
-@Library('shared_library')_
-library identifier: 'shared_library@main', retriever: modernSCM([
-  $class: 'GitSCMSource',
-  remote: 'https://github.com/mojibakara/shared_library.git'
-])
+#!/usr/bin/env groovy
+
+library identifier: 'shared-library@main', retriever: modernSCM(
+        [$class: 'GitSCMSource',
+         remote: 'https://github.com/mojibakara/shared_library.git',
+         credentialsId: 'gitlab-credentials'
+        ]
+)
+
+
+def gv
+
     pipeline {
         agent any
         tools {
