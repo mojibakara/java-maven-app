@@ -9,13 +9,6 @@ library identifier: 'pipeline-library-example@master', retriever: modernSCM([
             maven 'maven'
         }
         stages {
-            stage("init") {
-                steps {
-                    script {
-                        gv = load "script.groovy"
-                    }
-                }
-            }
             stage ("build jar") {
                 steps {
                     script {
