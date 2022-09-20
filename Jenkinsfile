@@ -1,33 +1,43 @@
-pipeline {
-    agent any    
-    tools   {
-        maven 'maven'
-    }
-    stages {
-        stage('Build jar') {
-            steps {
-                script  {
-                    echo 'Building the application...'
-                    sh 'mvn package'
+@Library('jenkins-shared-library')_
+library identifier: 'pipeline-library-example@master', retriever: modernSCM([
+  $class: 'GitSCMSource',
+  remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
+])
+    pipeline {
+        agent any
+        tools {
+            maven 'maven'
+        }
+        stages {
+            stage("init") {
+                steps {
+                    script {
+                        gv = load "script.groovy"
+                    }
                 }
             }
-        }
-        stage('Build image') {
-            steps {
-                script {
-                    echo 'Building the docker image...'
-                    withCredentials([usernamePassword(credentialsId: 'nexus-id', passwordVariable: 'PASS', usernameVariable: 'USER')]) {    
-                    sh 'docker build -t 185.110.189.54:8084/java-maven-app:1.5 .'
-                    sh "echo $PASS | docker login -u $USER --password-stdin 185.110.189.54:8084"
-                    sh 'docker push 185.110.189.54:8084/java-maven-app:1.5'
+            stage ("build jar") {
+                steps {
+                    script {
+                        buildJar()
+                    }
+                }
+            }
+            stage ("build image and push image") {
+                steps {
+                    script {
+                        buildImage '185.110.189.54:8085/java-maven-app:1.8'
+                        dockerLogin()
+                        dockerPush '185.110.189.54:8085/java-maven-app:1.8'
+                    }
+                }
+            }
+            stage ("deploy") {
+                steps {
+                    script {
+                        gv.deployApp()
                     }
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
     }
-}
