@@ -1,7 +1,7 @@
 @Library('jenkins-shared-library')_
 library identifier: 'pipeline-library-example@master', retriever: modernSCM([
   $class: 'GitSCMSource',
-  remote: 'https://github.com/wcm-io-devops/jenkins-pipeline-library-example.git'
+  remote: 'https://github.com/mojibakara/shared_library.git'
 ])
     pipeline {
         agent any
