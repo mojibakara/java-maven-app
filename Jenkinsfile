@@ -30,9 +30,9 @@ pipeline {
                 script {
                     echo 'Building the docker image...'
                     withCredentials([usernamePassword(credentialsId: 'nexus-id', passwordVariable: 'PASS', usernameVariable: 'USER')]) {    
-                    sh "docker build -t 185.110.189.54:8084/java-maven-app:$IMAGE_NAME ."
+                        sh "docker build -t 185.110.189.54:8084/java-maven-app:${IMAGE_NAME} ."
                     sh "echo $PASS | docker login -u $USER --password-stdin 185.110.189.54:8084"
-                    sh "docker push 185.110.189.54:8084/java-maven-app:$IMAGE_NAME"
+                        sh "docker push 185.110.189.54:8084/java-maven-app:${IMAGE_NAME}"
                     }
                 }
             }
