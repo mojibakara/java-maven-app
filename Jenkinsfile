@@ -26,9 +26,9 @@ def gv
             stage ("build image and push image") {
                 steps {
                     script {
-                        buildImage '185.110.189.54:8085/java-maven-app:1.8'
+                        buildImage '185.110.189.54:8084/java-maven-app:1.8'
                         dockerLogin()
-                        dockerPush '185.110.189.54:8085/java-maven-app:1.8'
+                        dockerPush '185.110.189.54:8084/java-maven-app:1.8'
                     }
                 }
             }
