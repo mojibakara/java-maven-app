@@ -53,6 +53,7 @@ pipeline {
                         
                         sh 'git status'
                         sh 'git branch'
+                        sh 'git switch incremental_versions'
                         sh 'git config --list'
                         
                         sh "git remote set-url origin https://${USER}:${PASS}@github.com/mojibakara/java-maven-app.git"
