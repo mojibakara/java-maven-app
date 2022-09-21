@@ -47,8 +47,8 @@ pipeline {
         stage ('commit version upadte') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'nexus-id', passwordVariable: 'PASS', usernameVariable: 'USER')]) {   
-                        sh 'git config --global user.email "jenkins@example.com"
+                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'PASS', usernameVariable: 'USER')]) {   
+                        sh 'git config --global user.email "jenkins@example.com"'
                         sh 'git config --global user.name "jenkins"'
                         
                         sh 'git status'
